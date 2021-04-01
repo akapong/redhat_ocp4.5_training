@@ -1,0 +1,8 @@
+[2020-11-23 10:53:44.008] [cli] [info] main {"_":[],"diff":false,"add":false,"goto":false,"new-window":false,"reuse-window":false,"wait":false,"version":false,"help":false,"list-extensions":false,"show-versions":false,"verbose":false,"status":false,"prof-modules":false,"prof-startup":false,"disable-extensions":false,"disable-gpu":false,"logExtensionHostCommunication":false,"skip-getting-started":false,"skip-release-notes":false,"sticky-quickopen":false,"disable-restore-windows":false,"disable-telemetry":false,"disable-updates":false,"disable-crash-reporter":false,"skip-add-to-recently-opened":false,"unity-launch":false,"open-url":false,"nolazy":false,"issue":false,"file-write":false,"file-chmod":false,"driver-verbose":false,"force":false,"prof-code-loading":false,"nodeless":false,"install-extension":"redhat.vscode-yaml-0.4.0.vsix"}
+[2020-11-23 10:53:44.250] [cli] [info] Scanned user extensions: 0
+[2020-11-23 10:53:44.255] [cli] [info] Scanned user extensions: 0
+[2020-11-23 10:53:44.256] [cli] [info] Installing the extension: redhat.vscode-yaml
+[2020-11-23 10:53:45.303] [cli] [info] Extracted extension to /home/student/.vscode-oss/extensions/.redhat.vscode-yaml-0.4.0: redhat.vscode-yaml
+[2020-11-23 10:53:45.303] [cli] [info] Renamed to /home/student/.vscode-oss/extensions/redhat.vscode-yaml-0.4.0
+[2020-11-23 10:53:45.305] [cli] [info] Installation completed. redhat.vscode-yaml
+[2020-11-23 10:53:45.306] [cli] [info] Successfully installed the extension: redhat.vscode-yaml

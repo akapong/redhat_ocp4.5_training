@@ -1,0 +1,8 @@
+**/out
+*.vsix
+server/**
+node_modules/
+.gradle/
+.idea/
+.vscode-test/
+.DS_Store

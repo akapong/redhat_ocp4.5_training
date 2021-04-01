@@ -1,0 +1,20 @@
+# Copyright 2020 Red Hat, Inc.
+#
+# NAME
+#     labtool.do285.shlib - lab grading script do285 function library
+#
+# SYNOPSIS
+#     Add the following line at the top of your script:
+#
+#        source /path/to/labtool.do285.shlib
+#
+#     *after* the source of the generic labtool.shlib
+#
+# DESCRIPTION
+#
+# CHANGELOG
+#   * Wed Sep 09 2020 Michael Phillips <miphilli@redhat.com>
+#   - This file exists, but is not really used.
+#   - DO180 labs use labtool.do180.shlib
+#   - DO280 labs use labtool.do280.shlib
+#
