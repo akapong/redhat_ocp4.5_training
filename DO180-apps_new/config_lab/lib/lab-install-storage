@@ -1,0 +1,123 @@
+#!/bin/bash
+#
+# Copyright 2020 Red Hat, Inc.
+#
+# NAME
+#     lab-install-storage - lab script for GE Introducing OpenShift Dynamic Storage
+#
+# SYNOPSIS
+#     lab-install-storage {start|finish}
+#
+#        start  - prepare the system for starting the lab
+#        finish - perform post-lab finish
+#
+# DESCRIPTION
+#     This script, based on singular argument, either does start or finish for
+#     the Introducing OpenShift Dynamic Storage GE
+#
+# CHANGELOG
+#   * Fri Oct 16 2020 Ivan Chavero <ichavero@redhat.com>
+
+PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+
+# This defines which subcommands are supported (start, grade, etc.).
+# Usually GEs do not have a grade verb
+# Corresponding lab_COMMAND functions must be defined.
+declare -a valid_commands=(start finish)
+
+this='install-storage'
+title='Guided Exercise: Introducing OpenShift Dynamic Storage'
+
+target='workstation'
+run_as_root='true'
+
+
+function do280_fix_utility_nfs_selinux {
+ # Check SELinux file context of utility:/exports and adjust if necessary
+  if ! (ssh root@utility ls -Zd /exports | grep container_file_t)
+  then
+    pad2 "Configuring SELinux context rule for utility:/exports"
+    ssh root@utility "semanage fcontext -a -t container_file_t '/exports(/.*)?'"
+    if [ $? -eq 0 ]
+    then
+      print_SUCCESS
+      pad2 "Applying SELinux context rule to utility:/exports"
+      ssh root@utility restorecon -RF /exports
+      if [ $? -eq 0 ]
+      then
+        print_SUCCESS
+      else
+        print_FAIL
+      fi
+    else
+      print_FAIL
+    fi
+  fi
+}
+
+function lab_start {
+  
+  ocp4_print_prereq_header
+
+  # This function should go away once the classroom is fixed
+  do280_fix_utility_nfs_selinux
+
+ 
+  ocp4_is_cluster_up
+  ocp4_login_as_admin
+
+  # avoid conflicts with left overs from previous exeercises
+  ocp4_fail_if_project_exists "${this}"
+
+  ocp4_exit_on_failure "It looks like you have already started this exercise. To try this exercise again, run 'lab ${this} finish' followed by 'lab ${this} start'."
+  ocp4_print_setup_header
+
+  ocp4_grab_lab_files 'no-solution'
+
+  pad2 "Persistent volume claim 'postgresql-storage' is not present"
+  if [ oc get pvc/postgresql-storage ]; then
+    print_FAIL
+  else
+    print_SUCCESS
+  fi
+
+  pad2 "Application 'postgres-persistent' is not present"
+  if [ oc get deployment.apps/postgres-persistent ];then
+    print_FAIL
+  else
+    print_SUCCESS
+  fi
+
+  pad2 "Application 'postgres-persistent2' is not present"
+  if [ oc get deployment.apps/postgres-persistent2 ];then
+    print_FAIL
+  else
+    print_SUCCESS
+  fi
+
+  ocp4_print_setup_footer
+}
+
+
+function lab_finish {
+
+  ocp4_print_cleanup_header
+
+  # remember to login before doing anything else
+  ocp4_login_as_admin
+
+  ocp4_delete_project "${this}"
+
+  ocp4_cleanup_lab_files 'no-solution'
+
+  ocp4_print_cleanup_footer
+}
+
+
+############### Don't EVER change anything below this line ###############
+
+# Source library of functions
+source /usr/local/lib/${function_lib}
+source /usr/local/lib/labtool.do280.shlib
+
+grading_main_program "$@"
